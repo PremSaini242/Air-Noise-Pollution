@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Air and Noise Pollution Mapping — Community Engagement Project, Dombivli." />
+  <title>Air & Noise Pollution Mapping | CEP 2026–27</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#home">
+    <span class="brand-mark"><img src="assets/bhandup-educational-society-logo-hq.png" alt="Bhandup Educational Society logo"></span>
+    <span><strong>PollutionMap</strong><small>Community Engagement Project</small></span>
+  </a>
+  <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">☰</button>
+  <nav id="nav">
+    <a href="#home">Home</a><a href="#dashboard">Dashboard</a><a href="#map">Map</a>
+    <a href="#survey">Survey</a><a href="#methodology">Methodology</a><a href="#recommendations">Actions</a>
+  </nav>
+</header>
+
+<main>
+<section id="home" class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="eyebrow">UNIVERSITY OF MUMBAI • CEP 2026–27</div><div class="college-line">V. K. Krishna Menon College</div><div class="society-line">Bhandup Educational Society</div>
+    <h1>Air & Noise<br><span>Pollution Mapping</span></h1>
+    <p class="hero-text">Making invisible environmental problems visible through field measurement, community engagement and digital mapping across selected locations in Dombivli.</p>
+    <div class="hero-actions">
+      <a class="btn primary" href="#dashboard">Explore Findings <span>→</span></a>
+      <a class="btn ghost" href="assets/Air_Noise_Pollution_Mapping_Report_Krushna_Gupta_Roll52_High_Quality.pdf" download>Download Report</a>
+    </div>
+    <div class="hero-meta">
+      <div><b>Krushna Gupta</b><span>Roll No. 52 • TY B.Sc. Computer Science</span></div>
+      <div><b>Mr. Rakesh</b><span>Faculty Mentor</span></div>
+      <div><b>Dombivli</b><span>Thane District, Maharashtra</span></div>
+    </div>
+  </div>
+  <div class="hero-card">
+    <div class="live-pill"><i></i> PROJECT SNAPSHOT</div>
+    <div class="big-number">7</div><div class="big-label">sampling locations</div>
+    <div class="mini-grid">
+      <div><strong>21</strong><span>reading sets</span></div>
+      <div><strong>60</strong><span>survey respondents</span></div>
+      <div><strong>120+</strong><span>people reached</span></div>
+      <div><strong>6/7</strong><span>noise limits exceeded</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="stats-strip">
+  <div><span>PM2.5</span><strong>97 µg/m³</strong><small>highest observed • S7</small></div>
+  <div><span>PM10</span><strong>189 µg/m³</strong><small>highest observed • S7</small></div>
+  <div><span>Noise</span><strong>79 dB(A)</strong><small>highest observed • S7</small></div>
+  <div><span>Awareness</span><strong>27%</strong><small>had heard of AQI</small></div>
+</section>
+
+<section id="dashboard" class="section">
+  <div class="section-head">
+    <div><span class="kicker">01 / PROJECT DASHBOARD</span><h2>What the field data tells us</h2></div>
+    <p>Mean values from three 15-minute readings at each site. Measurements are indicative, not regulatory-grade.</p>
+  </div>
+  <div class="insight-grid">
+    <article class="insight danger"><div class="icon">!</div><div><b>Noise is the clearest concern</b><p>Daytime noise exceeded the prescribed zone limit at six of seven sites, including both silence-zone locations.</p></div></article>
+    <article class="insight warn"><div class="icon">PM</div><div><b>Particulate levels are elevated</b><p>PM2.5 exceeded the NAAQS 24-hour benchmark at four sites; PM10 exceeded it at five.</p></div></article>
+    <article class="insight good"><div class="icon">✓</div><div><b>One quieter pocket</b><p>S5, the residential lane near Kopar Road, remained within its daytime noise limit and recorded the lowest overall values.</p></div></article>
+  </div>
+  <div class="chart-grid">
+    <article class="chart-card"><div class="chart-title"><div><span class="kicker">AIR QUALITY</span><h3>PM2.5 & PM10 by site</h3></div><span class="tag">NAAQS: 60 / 100</span></div><div class="bars" id="airBars"></div><div class="axis-note">Concentration (µg/m³)</div></article>
+    <article class="chart-card"><div class="chart-title"><div><span class="kicker">NOISE</span><h3>Measured level vs zone limit</h3></div><span class="tag">Daytime dB(A)</span></div><div class="bars noise-bars" id="noiseBars"></div><div class="axis-note">Sound level (dB(A))</div></article>
+  </div>
+</section>
+
+<section id="map" class="section map-section">
+  <div class="section-head">
+    <div><span class="kicker">02 / INTERACTIVE MAPPING</span><h2>Explore the sampling sites</h2></div>
+    <p>Click a marker to see the recorded mean PM2.5, PM10, noise and the applicable noise limit.</p>
+  </div>
+  <div class="map-wrap">
+    <div id="mapCanvas"></div>
+    <aside class="map-legend">
+      <h3>Noise status</h3>
+      <div><i class="dot green"></i> Within limit</div>
+      <div><i class="dot orange"></i> Up to 5 dB above</div>
+      <div><i class="dot red"></i> More than 5 dB above</div>
+      <hr>
+      <p><b>Note:</b> Site names and measurements follow the supplied CEP report. The report itself labels the mapping locations as sample entries and asks students to replace them with actual visited locations.</p>
+    </aside>
+  </div>
+</section>
+
+<section id="survey" class="section tinted">
+  <div class="section-head">
+    <div><span class="kicker">03 / COMMUNITY PERCEPTION</span><h2>What residents said</h2></div>
+    <p>Survey of 60 residents and shopkeepers in the Phadke Road area and nearby housing societies.</p>
+  </div>
+  <div class="survey-layout">
+    <div class="survey-chart" id="surveyChart"></div>
+    <div class="survey-list">
+      <div><span>Notice dust or smoke weekly</span><b>82%</b><div class="progress"><i style="width:82%"></i></div></div>
+      <div><span>See traffic/horns as main noise source</span><b>68%</b><div class="progress"><i style="width:68%"></i></div></div>
+      <div><span>Report sleep/concentration disturbance</span><b>58%</b><div class="progress"><i style="width:58%"></i></div></div>
+      <div><span>Willing to join monitoring/awareness</span><b>72%</b><div class="progress"><i style="width:72%"></i></div></div>
+      <div><span>Had heard of AQI</span><b>27%</b><div class="progress"><i style="width:27%"></i></div></div>
+      <div><span>Know silence zones/noise limits</span><b>12%</b><div class="progress"><i style="width:12%"></i></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="interactions" class="section">
+  <div class="section-head"><div><span class="kicker">04 / COMMUNITY ENGAGEMENT</span><h2>Three interactions, one shared goal</h2></div><p>The project connected field measurement with conversations and public awareness.</p></div>
+  <div class="timeline">
+    <article><div class="step">01</div><span>22 JAN 2026</span><h3>Baseline monitoring</h3><p>Eight students visited seven Dombivli sites and recorded PM2.5, PM10 and noise across morning, afternoon and evening slots.</p><strong>21 sets of readings</strong></article>
+    <article><div class="step">02</div><span>12 FEB 2026</span><h3>Perception survey</h3><p>Twelve students collected questionnaire responses from residents and shopkeepers and conducted five semi-structured interviews.</p><strong>60 responses + 5 interviews</strong></article>
+    <article><div class="step">03</div><span>12 MAR 2026</span><h3>Awareness campaign</h3><p>A residential society and school received maps, bilingual pamphlets, a quiz, sensor demonstration and a “No Unnecessary Honking” pledge.</p><strong>~120 people reached</strong></article>
+  </div>
+</section>
+
+<section id="methodology" class="section dark">
+  <div class="section-head light"><div><span class="kicker">05 / METHODOLOGY</span><h2>From field readings to a digital map</h2></div><p>Mixed-method, participatory action research combining quantitative measurements with community observations and interviews.</p></div>
+  <div class="method-grid">
+    <div><span>01</span><h3>Measure</h3><p>PM2.5 and PM10 were recorded using a portable low-cost particulate sensor; noise was recorded using a smartphone sound-level application checked against a reference meter.</p></div>
+    <div><span>02</span><h3>Locate</h3><p>GPS coordinates were noted for each sampling site, allowing measurements to be presented spatially.</p></div>
+    <div><span>03</span><h3>Observe</h3><p>Traffic density, honking, idling vehicles, construction, waste burning and other visible pollution sources were documented.</p></div>
+    <div><span>04</span><h3>Analyse</h3><p>Readings were entered into a spreadsheet, cleaned, averaged and compared with NAAQS, WHO guidelines and relevant noise limits.</p></div>
+    <div><span>05</span><h3>Visualise</h3><p>The report used Python, pandas, folium and matplotlib concepts to produce maps and charts that non-experts can understand.</p></div>
+    <div><span>06</span><h3>Engage</h3><p>Maps, posters, bilingual pamphlets, video and interactive quizzes translated data into community awareness and action.</p></div>
+  </div>
+</section>
+
+<section class="section standards">
+  <div class="section-head"><div><span class="kicker">06 / REFERENCE STANDARDS</span><h2>Benchmarks used in the project</h2></div><p>Reference values reproduced from the supplied report.</p></div>
+  <div class="table-wrap">
+    <table><thead><tr><th>Indicator</th><th>Benchmark</th><th>Value</th><th>Period / Zone</th></tr></thead>
+    <tbody>
+      <tr><td>PM2.5</td><td>NAAQS</td><td>60 µg/m³</td><td>24-hour</td></tr>
+      <tr><td>PM10</td><td>NAAQS</td><td>100 µg/m³</td><td>24-hour</td></tr>
+      <tr><td>PM2.5</td><td>WHO 2021</td><td>15 µg/m³</td><td>24-hour</td></tr>
+      <tr><td>PM10</td><td>WHO 2021</td><td>45 µg/m³</td><td>24-hour</td></tr>
+      <tr><td>Noise</td><td>Industrial</td><td>75 dB(A)</td><td>Daytime</td></tr>
+      <tr><td>Noise</td><td>Commercial</td><td>65 dB(A)</td><td>Daytime</td></tr>
+      <tr><td>Noise</td><td>Residential</td><td>55 dB(A)</td><td>Daytime</td></tr>
+      <tr><td>Noise</td><td>Silence zone</td><td>50 dB(A)</td><td>Daytime</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<section id="recommendations" class="section actions">
+  <div class="section-head"><div><span class="kicker">07 / RECOMMENDATIONS</span><h2>Turning findings into local action</h2></div><p>Seven recommendations presented in the project report.</p></div>
+  <div class="action-grid">
+    <article><b>01</b><h3>Community monitoring network</h3><p>Train students, residents and volunteers to take regular readings at fixed locations.</p></article>
+    <article><b>02</b><h3>Low-cost sensors + open dashboard</h3><p>Deploy calibrated sensors at key junctions, schools and hospitals and publish live readings.</p></article>
+    <article><b>03</b><h3>Silence-zone enforcement</h3><p>Strengthen signage, enforcement and “no honking” campaigns near sensitive locations.</p></article>
+    <article><b>04</b><h3>Control dust & waste burning</h3><p>Promote construction dust controls and discourage open burning of waste.</p></article>
+    <article><b>05</b><h3>Simplify grievance channels</h3><p>Make pollution complaint mechanisms easier to find, understand and use.</p></article>
+    <article><b>06</b><h3>Annual awareness events</h3><p>Institutionalise awareness activities with the college and local groups.</p></article>
+    <article><b>07</b><h3>Policy advocacy & research</h3><p>Share findings with authorities and repeat the study with longer periods and more sites.</p></article>
+  </div>
+</section>
+
+<section class="cta">
+  <div><span class="kicker">PROJECT TAKEAWAY</span><h2>Maps make invisible problems visible.</h2><p>Technology becomes meaningful when it helps a community understand its surroundings and act on local evidence.</p></div>
+  <a class="btn light-btn" href="assets/Air_Noise_Pollution_Mapping_Report_Krushna_Gupta_Roll52_High_Quality.pdf" download>Get Full Project Report →</a>
+</section>
+</main>
+
+<footer>
+  <div><strong>Air & Noise Pollution Mapping</strong><span>Community Engagement Project • University of Mumbai • Academic Year 2026–27</span></div>
+  <div>Prepared from the supplied CEP report • Krushna Gupta • Roll No. 52</div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="script.js"></script>
+</body>
+</html>
